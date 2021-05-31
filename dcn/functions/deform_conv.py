@@ -2,7 +2,8 @@ import torch
 from torch.autograd import Function
 from torch.nn.modules.utils import _pair
 
-from .. import deform_conv_cuda
+#TODO: to import from deform_conv_cuda.cp36-win_amd64.pyd
+# import ..deform_conv_cuda as deform_conv_cuda
 
 
 class DeformConvFunction(Function):

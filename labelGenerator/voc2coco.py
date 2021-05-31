@@ -15,14 +15,17 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
  
+import glob
 import json
+import math
+import os
+import sys
+
 import cv2
 import numpy as np
-import glob
 import PIL.Image
-import os,sys
-import math
- 
+
+
 class PascalVOC2coco(object):
     def __init__(self, xml=[], save_json_path='./new.json'):
         '''
@@ -57,9 +60,11 @@ class PascalVOC2coco(object):
                 for p in fp:
                     f_name = 1
                     if 'filename' in p:
-                        self.filen_ame = p.split('>')[1].split('<')[0]
+                        self.file_name = p.split('>')[1].split('<')[0] 
+                        # if not self.file_name.find(".jpg"):
+                        self.file_name = self.file_name + '.jpg'
                         f_name = 0
-                        self.path = os.path.join(path, 'SegmentationObject', self.filen_ame.split('.')[0] + '.png')
+                        self.path = os.path.join(path, 'SegmentationObject', self.file_name.split('.')[0] + '.png')
                     if 'width' in p:
                         self.width = int(p.split('>')[1].split('<')[0])
                     if 'height' in p:
@@ -110,7 +115,7 @@ class PascalVOC2coco(object):
         image['height'] = self.height
         image['width'] = self.width
         image['id'] = self.num + 1
-        image['file_name'] = self.filen_ame
+        image['file_name'] = self.file_name
         return image
  
     def categorie(self):
@@ -201,7 +206,8 @@ class PascalVOC2coco(object):
         json.dump(self.data_coco, open(self.save_json_path, 'w'), indent=4)  # indent=4 更加美观显示
  
  
-xml_file = glob.glob('./Annotations/*.xml')
+xml_file = glob.glob('/home/nagano/workspace/R-CenterNet/airplane_0_360/train/*.xml')
+# xml_file = glob.glob('./Annotations/*.xml')
 # xml_file=['./Annotations/000032.xml']
 #xml_file=['00000007_05499_d_0000037.xml']
-PascalVOC2coco(xml_file, 'train.json')
+PascalVOC2coco(xml_file, '/home/nagano/workspace/R-CenterNet/data/airplane360/annotations/train.json')

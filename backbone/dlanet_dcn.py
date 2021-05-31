@@ -1,19 +1,17 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-
-import math
 import logging
-import numpy as np
+import math
 from os.path import join
 
+import numpy as np
 import torch
-from torch import nn
 import torch.nn.functional as F
 import torch.utils.model_zoo as model_zoo
-from dcn.modules.deform_conv import ModulatedDeformConvPack as DCN
-#from DCNv2.dcn_v2 import DCN
+from dcn.functions.deform_conv import DeformConvFunction as DCN
+from torch import nn
+
+from .DCNv2.dcn_v2 import DCN
 
 BN_MOMENTUM = 0.1
 logger = logging.getLogger(__name__)
@@ -500,10 +498,3 @@ def DlaNet(num_layers=34, heads = {'hm': 1, 'wh': 2, 'ang':1, 'reg': 2}, head_co
                  head_conv=head_conv,
                  plot = plot)
     return model
-
-
-
-
-
-
-

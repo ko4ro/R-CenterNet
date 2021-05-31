@@ -5,19 +5,20 @@
 # Modified by Dequan Wang and Xingyi Zhou
 # ------------------------------------------------------------------------------
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-import os
-import math
 import logging
+import math
+import os
 
 import torch
 import torch.nn as nn
-from dcn.modules.deform_conv import ModulatedDeformConvPack as DCN
-
 import torch.utils.model_zoo as model_zoo
+
+from .DCNv2.dcn_v2 import DCN
+
+# from dcn.functions.deform_conv import DeformConvFunction as DCN
+
 
 BN_MOMENTUM = 0.1
 logger = logging.getLogger(__name__)
@@ -296,4 +297,3 @@ def ResNet(layer_num, heads = {'hm': 1, 'wh': 2, 'ang':1,'reg': 2}, head_conv=25
     block_class, layers = resnet_spec[layer_num]
     model = Creat_ResNet(block_class, layers, heads, head_conv=head_conv, plot=plot)
     return model
-
