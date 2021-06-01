@@ -1,11 +1,13 @@
 
-model: ResNet
+model: DlaNet_DCN
 loss_weight:
   hm_weight: 1
-  wh_weight: 1
-  ang_weight: 1
+  wh_weight: 0.1
+  ang_weight: 0.1
   reg_weight: 0.1
 learning_rate: 1.25e-4
-num_epochs: 150
+num_epochs: 300
+batch_size: 8
+test_batch_size: 8 
 data_dir: '/home/nagano/workspace/R-CenterNet/data/airplane360'
-output_pth: './best.pth'
+output_pth: './dlanetdcn360.pth'

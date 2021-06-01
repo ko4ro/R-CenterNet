@@ -14,10 +14,13 @@ import torch
 import torch.nn as nn
 from PIL import Image, ImageDraw
 
-# from backbone.dlanet_dcn import DlaNet
-from backbone.resnet_dcn import ResNet
+from backbone.dlanet_dcn import DlaNet
+# from backbone.resnet_dcn import ResNet
+# from backbone.resnet import ResNet
 from dataset import get_affine_transform
 from Loss import _gather_feat, _transpose_and_gather_feat
+
+PATH = "/home/nagano/workspace/R-CenterNet/outputs/2021-05-31/16-51-39/dlanetdcn360.pth"
 
 
 def draw(filename, result):
@@ -73,8 +76,8 @@ def draw(filename, result):
         draw.line([(x0n, y0n), (x3n, y3n)], fill=(255, 0, 0), width=5)
     #    plt.imshow(img)
     #    plt.show()
-    os.makedirs(os.path.join("img_ret", "360"),exist_ok=True)
-    img.save(os.path.join("img_ret", "360", os.path.split(filename)[-1]))
+    os.makedirs(os.path.join(os.path.dirname(PATH), "dlanetdcn360"),exist_ok=True)
+    img.save(os.path.join(os.path.dirname(PATH), "dlanetdcn360", os.path.split(filename)[-1]))
 
 
 def pre_process(image):
@@ -86,7 +89,7 @@ def pre_process(image):
     inp_image = cv2.warpAffine(
         image, trans_input, (inp_width, inp_height), flags=cv2.INTER_LINEAR
     )
-
+    
     mean = np.array(
         [0.5194416012442385, 0.5378052387430711, 0.533462090585746], dtype=np.float32
     ).reshape(1, 1, 3)
@@ -244,14 +247,14 @@ def merge_outputs(detections):
 
 
 if __name__ == "__main__":
-    model = ResNet(34)
-    # model = DlaNet(34)
+    # model = ResNet(34)
+    model = DlaNet(34)
     device = torch.device("cuda")
 
-    model.load_state_dict(torch.load("best360.pth"))
+    model.load_state_dict(torch.load(PATH))
     model.eval()
     model.cuda()
-    for image_name in [os.path.join("/home/nagano/workspace/R-CenterNet/airplane_0_360/train/", f) for f in os.listdir("/home/nagano/workspace/R-CenterNet/airplane_0_360/train/")]:
+    for image_name in [os.path.join("/home/nagano/workspace/R-CenterNet/airplane_0_360/test/", f) for f in os.listdir("/home/nagano/workspace/R-CenterNet/airplane_0_360/test/")]:
     # image_name = 'data/images/011.jpg'
         if image_name.split(".")[-1] == "jpg":
             image = cv2.imread(image_name)

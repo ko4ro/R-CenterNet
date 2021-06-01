@@ -80,7 +80,7 @@ class PascalVOC2coco(object):
                         w = float(self.ob[3])
                         h = float(self.ob[4])
                         angle = float(self.ob[5])*180/math.pi
-                        angle = angle if angle < 180 else angle-180
+                        # angle = angle if angle < 180 else angle-180
                         
                         self.rectangle = [x1, y1, x1+w, y1+w]
                         self.bbox = [x1, y1, w, h, angle]  # COCO 对应格式[x,y,w,h]
@@ -206,8 +206,8 @@ class PascalVOC2coco(object):
         json.dump(self.data_coco, open(self.save_json_path, 'w'), indent=4)  # indent=4 更加美观显示
  
  
-xml_file = glob.glob('/home/nagano/workspace/R-CenterNet/airplane_0_360/train/*.xml')
+xml_file = glob.glob('/home/nagano/workspace/R-CenterNet/airplane_0_360/val/*.xml')
 # xml_file = glob.glob('./Annotations/*.xml')
 # xml_file=['./Annotations/000032.xml']
 #xml_file=['00000007_05499_d_0000037.xml']
-PascalVOC2coco(xml_file, '/home/nagano/workspace/R-CenterNet/data/airplane360/annotations/train.json')
+PascalVOC2coco(xml_file, '/home/nagano/workspace/R-CenterNet/data/airplane360/annotations/val.json')

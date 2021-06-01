@@ -61,10 +61,10 @@ def main(config):
 
 
     train_dataset = ctDataset(data_dir=config.data_dir, split='train')
-    train_loader = DataLoader(train_dataset,batch_size=2,shuffle=False,num_workers=0)  # num_workers是加载数据（batch）的线程数目
+    train_loader = DataLoader(train_dataset,batch_size=config.batch_size,shuffle=False,num_workers=0)  # num_workers是加载数据（batch）的线程数目
 
     test_dataset = ctDataset(data_dir=config.data_dir, split='val')
-    test_loader = DataLoader(test_dataset,batch_size=4,shuffle=False,num_workers=0)
+    test_loader = DataLoader(test_dataset,batch_size=config.test_batch_size,shuffle=False,num_workers=0)
     print('the dataset has %d images' % (len(train_dataset)))
 
 
